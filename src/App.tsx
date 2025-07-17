@@ -278,9 +278,7 @@ function App() {
             isOpen={showPreviousGamesModal} 
             onClose={() => setShowPreviousGamesModal(false)} 
           />
-          </div>
         </div>
-      </div>
     );
   }
 
