@@ -20,7 +20,7 @@ const MobileStickyAd: React.FC = () => {
     gpt.cmd.push(() => {
       // get the already defined slot from index.html
       slotRef.current = gpt.pubads().getSlots().find(
-        slot => slot.getSlotElementId() === 'div-gpt-ad-1752568566934-0'
+        slot => slot.getSlotElementId() === 'div-gpt-ad-1752753417832-0'
       );
 
       if (!slotRef.current) return;
@@ -39,7 +39,7 @@ const MobileStickyAd: React.FC = () => {
       });
 
       // initial load when component mounts
-      gpt.display('div-gpt-ad-1752568566934-0');
+      gpt.display('div-gpt-ad-1752753417832-0');
       setIsLoaded(true);
       // and fetch immediately via refresh
       gpt.pubads().refresh([slotRef.current], { changeCorrelator: false });
@@ -64,8 +64,8 @@ const MobileStickyAd: React.FC = () => {
           <X className="w-4 h-4 text-gray-600" />
         </button>
         <div
-          id="div-gpt-ad-1752568566934-0"
-          style={{ minWidth: '300px', minHeight: '250px' }}
+          id="div-gpt-ad-1752753417832-0"
+          style={{ minWidth: '300px', minHeight: '50px' }}
           className="flex items-center justify-center"
         >
           {!isLoaded && <div className="text-gray-500 text-sm">Loading advertisement...</div>}
