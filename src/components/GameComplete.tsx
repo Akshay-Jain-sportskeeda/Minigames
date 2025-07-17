@@ -2,6 +2,8 @@ import React from 'react';
 import { Trophy, Star, RotateCcw, Share2 } from 'lucide-react';
 import { GameState } from '../types/game';
 import CountdownTimer from './CountdownTimer';
+import PreviousGamesCTA from './PreviousGamesCTA';
+import PreviousGamesModal from './PreviousGamesModal';
 import { trackShare } from '../utils/analytics';
 
 interface GameCompleteProps {
@@ -10,6 +12,8 @@ interface GameCompleteProps {
 }
 
 const GameComplete: React.FC<GameCompleteProps> = ({ gameState, onRestart }) => {
+  const [showPreviousGamesModal, setShowPreviousGamesModal] = React.useState(false);
+
   // Calculate accuracy based on base scores (excluding bonus points)
   const baseScoreTotal = gameState.answers.reduce((total, answer) => {
     // Remove bonus points from perfect guesses for accuracy calculation
@@ -120,6 +124,11 @@ const GameComplete: React.FC<GameCompleteProps> = ({ gameState, onRestart }) => 
         <div className="mb-4">
           <CountdownTimer />
         </div>
+        
+        {/* Previous Games CTA */}
+        <div className="mb-4">
+          <PreviousGamesCTA onOpenModal={() => setShowPreviousGamesModal(true)} />
+        </div>
 
         {/* Detailed Answers - Mobile Optimized */}
         <div className="bg-gray-800 border border-gray-700 rounded-2xl shadow-xl p-4 md:p-6">
@@ -225,6 +234,12 @@ const GameComplete: React.FC<GameCompleteProps> = ({ gameState, onRestart }) => 
           </div>
         </div>
       </div>
+      
+      {/* Previous Games Modal */}
+      <PreviousGamesModal 
+        isOpen={showPreviousGamesModal} 
+        onClose={() => setShowPreviousGamesModal(false)} 
+      />
     </div>
   );
 };

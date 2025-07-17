@@ -8,6 +8,8 @@ import ResultModal from './components/ResultModal';
 import GameComplete from './components/GameComplete';
 import { Play, Brain, Loader2, Calendar } from 'lucide-react';
 import { getDateFromUrl, getTodayString } from './utils/dateUtils';
+import PreviousGamesCTA from './components/PreviousGamesCTA';
+import PreviousGamesModal from './components/PreviousGamesModal';
 import { 
   trackGameStart, 
   trackQuestionAnswered, 
@@ -40,6 +42,7 @@ function App() {
   } | null>(null);
   const [questionStartTime, setQuestionStartTime] = useState<number>(Date.now());
   const [appStartTime] = useState<number>(Date.now());
+  const [showPreviousGamesModal, setShowPreviousGamesModal] = useState(false);
 
   // Track page view on mount
   useEffect(() => {
@@ -253,16 +256,28 @@ function App() {
   // Show message if no players available for today
   if (players.length === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900 flex items-center justify-center p-4">
-        <div className="bg-gray-800 border border-gray-700 rounded-3xl shadow-2xl p-8 max-w-lg w-full text-center">
-          <Calendar className="w-16 h-16 text-gray-500 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-gray-100 mb-3">No Challenge Available</h1>
-          <p className="text-gray-400 mb-4">
-            There are no cricket players scheduled for this date's challenge.
-          </p>
-          <div className="bg-gray-700 border border-gray-600 rounded-xl p-4 text-sm text-gray-300">
-            <p className="font-medium mb-1">Date: {displayDate}</p>
-            <p>Try selecting a different date or check back later!</p>
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900 p-4">
+        <div className="max-w-lg mx-auto pt-8">
+          <div className="bg-gray-800 border border-gray-700 rounded-3xl shadow-2xl p-8 text-center mb-4">
+            <Calendar className="w-16 h-16 text-gray-500 mx-auto mb-4" />
+            <h1 className="text-2xl font-bold text-gray-100 mb-3">No Challenge Available</h1>
+            <p className="text-gray-400 mb-4">
+              There are no cricket players scheduled for this date's challenge.
+            </p>
+            <div className="bg-gray-700 border border-gray-600 rounded-xl p-4 text-sm text-gray-300">
+              <p className="font-medium mb-1">Date: {displayDate}</p>
+              <p>Try selecting a different date or check back later!</p>
+            </div>
+          </div>
+          
+          {/* Previous Games CTA for no data state */}
+          <PreviousGamesCTA onOpenModal={() => setShowPreviousGamesModal(true)} />
+          
+          {/* Previous Games Modal */}
+          <PreviousGamesModal 
+            isOpen={showPreviousGamesModal} 
+            onClose={() => setShowPreviousGamesModal(false)} 
+          />
           </div>
         </div>
       </div>
@@ -335,6 +350,12 @@ function App() {
           isLastQuestion={gameState.currentQuestion + 1 >= gameState.totalQuestions}
         />
       )}
+      
+      {/* Previous Games Modal */}
+      <PreviousGamesModal 
+        isOpen={showPreviousGamesModal} 
+        onClose={() => setShowPreviousGamesModal(false)} 
+      />
     </div>
   );
 }
