@@ -5,7 +5,7 @@ declare global {
   interface Window { googletag: any; }
 }
 
-const REFRESH_INTERVAL = 30000;
+const REFRESH_INTERVAL = 30000; // 30 seconds
 
 const MobileStickyAd: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
@@ -18,17 +18,17 @@ const MobileStickyAd: React.FC = () => {
     if (!gpt?.cmd) return;
 
     gpt.cmd.push(() => {
-      // Retrieve the slot defined in your index.html
-      slotRef.current = gpt
-        .pubads()
-        .getSlots()
-        .find(s => s.getSlotElementId() === 'div-gpt-ad-1752753417832-0');
+      // get the already defined slot from index.html
+      slotRef.current = gpt.pubads().getSlots().find(
+        slot => slot.getSlotElementId() === 'div-gpt-ad-1752568566934-0'
+      );
 
       if (!slotRef.current) return;
 
-      // Listen for viewable events to queue a refresh
+      // listen for viewability
       gpt.pubads().addEventListener('impressionViewable', event => {
         if (event.slot === slotRef.current) {
+          // schedule a refresh after the interval
           if (timerRef.current) clearTimeout(timerRef.current);
           timerRef.current = window.setTimeout(() => {
             gpt.cmd.push(() => {
@@ -38,9 +38,10 @@ const MobileStickyAd: React.FC = () => {
         }
       });
 
-      // Initial display + immediate refresh
-      gpt.display('div-gpt-ad-1752753417832-0');
+      // initial load when component mounts
+      gpt.display('div-gpt-ad-1752568566934-0');
       setIsLoaded(true);
+      // and fetch immediately via refresh
       gpt.pubads().refresh([slotRef.current], { changeCorrelator: false });
     });
 
@@ -63,8 +64,8 @@ const MobileStickyAd: React.FC = () => {
           <X className="w-4 h-4 text-gray-600" />
         </button>
         <div
-          id="div-gpt-ad-1752753417832-0"
-          style={{ minWidth: '300px', minHeight: '50px' }}
+          id="div-gpt-ad-1752568566934-0"
+          style={{ minWidth: '300px', minHeight: '250px' }}
           className="flex items-center justify-center"
         >
           {!isLoaded && <div className="text-gray-500 text-sm">Loading advertisement...</div>}
