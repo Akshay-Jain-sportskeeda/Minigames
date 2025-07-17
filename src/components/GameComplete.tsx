@@ -1,4 +1,5 @@
 import React from 'react';
+import AdBanner from './AdBanner';
 import { Trophy, Star, RotateCcw, Share2 } from 'lucide-react';
 import { GameState } from '../types/game';
 import CountdownTimer from './CountdownTimer';
@@ -123,6 +124,15 @@ const GameComplete: React.FC<GameCompleteProps> = ({ gameState, onRestart }) => 
         {/* Countdown Timer for Next Challenge */}
         <div className="mb-4">
           <CountdownTimer />
+        </div>
+        
+        {/* Ad Banner */}
+        <div className="mb-4">
+          <AdBanner
+            adUnitPath="/cricket-game/game-complete"
+            size={[[300, 250], [320, 100]]}
+            className="flex justify-center"
+          />
         </div>
         
         {/* Previous Games CTA */}

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import AdProvider from './components/AdProvider';
+import AdBanner from './components/AdBanner';
 import { cricketPlayers, loadPlayersFromSheet } from './data/players';
 import { generateQuestion, calculateScore, initializeGame, resetGameState } from './utils/gameLogic';
 import { GameState, Question } from './types/game';
@@ -301,61 +303,81 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900">
-      <div className="max-w-md mx-auto">
-        {/* Combined Player Card and Answer Input */}
-        <div className="p-3">
-          <div className="bg-gray-800 border border-gray-700 rounded-2xl shadow-xl overflow-hidden">
-            {/* Player Section */}
-            <PlayerCard
-              player={currentQuestion.player}
-              statLabel={currentQuestion.statLabel}
-              currentQuestion={gameState.currentQuestion + 1}
-              totalQuestions={gameState.totalQuestions}
+    <AdProvider publisherId="YOUR_PUBLISHER_ID">
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900">
+        <div className="max-w-md mx-auto">
+          {/* Top Banner Ad */}
+          <div className="p-3 pb-0">
+            <AdBanner
+              adUnitPath="/cricket-game/top-banner"
+              size={[320, 50]}
+              className="mb-3"
             />
+          </div>
 
-            {/* Answer Section */}
-            <div className="p-4">
-              <div className="flex gap-3 items-end">
-                <div className="flex-1">
-                  <AnswerInput
-                    key={`${currentQuestion.player.id}-${currentQuestion.statLabel}-${gameState.currentQuestion}`}
-                    maxValue={currentQuestion.maxValue}
-                    onAnswerChange={setUserAnswer}
-                    unit={currentQuestion.unit}
-                    correctAnswer={currentQuestion.player.answer}
-                  />
+          {/* Combined Player Card and Answer Input */}
+          <div className="p-3">
+            <div className="bg-gray-800 border border-gray-700 rounded-2xl shadow-xl overflow-hidden">
+              {/* Player Section */}
+              <PlayerCard
+                player={currentQuestion.player}
+                statLabel={currentQuestion.statLabel}
+                currentQuestion={gameState.currentQuestion + 1}
+                totalQuestions={gameState.totalQuestions}
+              />
+
+              {/* Answer Section */}
+              <div className="p-4">
+                <div className="flex gap-3 items-end">
+                  <div className="flex-1">
+                    <AnswerInput
+                      key={`${currentQuestion.player.id}-${currentQuestion.statLabel}-${gameState.currentQuestion}`}
+                      maxValue={currentQuestion.maxValue}
+                      onAnswerChange={setUserAnswer}
+                      unit={currentQuestion.unit}
+                      correctAnswer={currentQuestion.player.answer}
+                    />
+                  </div>
+                  <button
+                    onClick={submitAnswer}
+                    disabled={userAnswer === 0}
+                    className="bg-gradient-to-r from-emerald-500 to-green-600 text-white text-base font-semibold py-3 px-6 rounded-xl hover:from-emerald-600 hover:to-green-700 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg whitespace-nowrap"
+                  >
+                    Submit
+                  </button>
                 </div>
-                <button
-                  onClick={submitAnswer}
-                  disabled={userAnswer === 0}
-                  className="bg-gradient-to-r from-emerald-500 to-green-600 text-white text-base font-semibold py-3 px-6 rounded-xl hover:from-emerald-600 hover:to-green-700 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg whitespace-nowrap"
-                >
-                  Submit
-                </button>
               </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      {showResult && currentResult && (
-        <ResultModal
-          isVisible={showResult}
-          userAnswer={currentResult.userAnswer}
-          correctAnswer={currentResult.correctAnswer}
-          points={currentResult.points}
-          onNext={nextQuestion}
-          isLastQuestion={gameState.currentQuestion + 1 >= gameState.totalQuestions}
+          {/* Bottom Banner Ad */}
+          <div className="p-3 pt-0">
+            <AdBanner
+              adUnitPath="/cricket-game/bottom-banner"
+              size={[320, 100]}
+              className="mt-3"
+            />
+          </div>
+        </div>
+
+        {showResult && currentResult && (
+          <ResultModal
+            isVisible={showResult}
+            userAnswer={currentResult.userAnswer}
+            correctAnswer={currentResult.correctAnswer}
+            points={currentResult.points}
+            onNext={nextQuestion}
+            isLastQuestion={gameState.currentQuestion + 1 >= gameState.totalQuestions}
+          />
+        )}
+        
+        {/* Previous Games Modal */}
+        <PreviousGamesModal 
+          isOpen={showPreviousGamesModal} 
+          onClose={() => setShowPreviousGamesModal(false)} 
         />
-      )}
-      
-      {/* Previous Games Modal */}
-      <PreviousGamesModal 
-        isOpen={showPreviousGamesModal} 
-        onClose={() => setShowPreviousGamesModal(false)} 
-      />
-    </div>
+      </div>
+    </AdProvider>
   );
 }
 
