@@ -12,19 +12,16 @@ const PreviousGamesCTA: React.FC<PreviousGamesCTAProps> = ({ onOpenModal }) => {
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-2">
             <Clock className="w-4 h-4" />
-            <h3 className="text-sm font-semibold">Missed a Day?</h3>
+            <h3 className="text-sm font-semibold">Try Another Game</h3>
           </div>
-          <p className="text-xs opacity-90 mb-3">
-            Play cricket challenges from previous dates and test your knowledge!
-          </p>
         </div>
         
         <button
           onClick={onOpenModal}
-          className="bg-white/20 backdrop-blur-sm border border-white/30 text-white px-4 py-2 rounded-lg font-medium hover:bg-white/30 transition-all transform hover:scale-105 flex items-center gap-2 text-sm whitespace-nowrap ml-3"
+          className="bg-white/20 backdrop-blur-sm border border-white/30 text-white px-4 py-2 rounded-lg font-medium hover:bg-white/30 transition-all transform hover:scale-105 flex items-center gap-2 text-sm whitespace-nowrap"
         >
           <Calendar className="w-4 h-4" />
-          Browse Games
+          Play Now
         </button>
       </div>
     </div>

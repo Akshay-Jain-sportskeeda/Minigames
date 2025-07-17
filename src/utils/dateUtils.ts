@@ -14,14 +14,13 @@ export const getAvailableGameDates = (): GameDate[] => {
   const dates: GameDate[] = [];
   const today = new Date();
   
-  // Generate dates for the past 7 days and next 3 days as examples
-  // In a real implementation, you'd check your data source for actual availability
-  for (let i = -7; i <= 3; i++) {
+  // Generate dates for the past 14 days only (no future dates)
+  for (let i = -14; i <= -1; i++) {
     const date = new Date(today);
     date.setDate(today.getDate() + i);
     
     const dateString = formatDateToString(date);
-    const isToday = i === 0;
+    const isToday = false; // Never today since we only show past dates
     
     dates.push({
       date: dateString,
