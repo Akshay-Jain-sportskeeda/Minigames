@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import AdProvider from './components/AdProvider';
-import AdBanner from './components/AdBanner';
+import MobileStickyAd from './components/MobileStickyAd';
 import { cricketPlayers, loadPlayersFromSheet } from './data/players';
 import { generateQuestion, calculateScore, initializeGame, resetGameState } from './utils/gameLogic';
 import { GameState, Question } from './types/game';
@@ -303,18 +302,9 @@ function App() {
   }
 
   return (
-    <AdProvider publisherId="YOUR_PUBLISHER_ID">
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900">
+      <div className="pb-[270px]"> {/* Add bottom padding to account for sticky ad */}
         <div className="max-w-md mx-auto">
-          {/* Top Banner Ad */}
-          <div className="p-3 pb-0">
-            <AdBanner
-              adUnitPath="/cricket-game/top-banner"
-              size={[320, 50]}
-              className="mb-3"
-            />
-          </div>
-
           {/* Combined Player Card and Answer Input */}
           <div className="p-3">
             <div className="bg-gray-800 border border-gray-700 rounded-2xl shadow-xl overflow-hidden">
@@ -349,17 +339,12 @@ function App() {
               </div>
             </div>
           </div>
-
-          {/* Bottom Banner Ad */}
-          <div className="p-3 pt-0">
-            <AdBanner
-              adUnitPath="/cricket-game/bottom-banner"
-              size={[320, 100]}
-              className="mt-3"
-            />
-          </div>
         </div>
-
+      </div>
+      
+      {/* Mobile Sticky Ad */}
+      <MobileStickyAd />
+      
         {showResult && currentResult && (
           <ResultModal
             isVisible={showResult}
@@ -376,8 +361,7 @@ function App() {
           isOpen={showPreviousGamesModal} 
           onClose={() => setShowPreviousGamesModal(false)} 
         />
-      </div>
-    </AdProvider>
+    </div>
   );
 }
 
