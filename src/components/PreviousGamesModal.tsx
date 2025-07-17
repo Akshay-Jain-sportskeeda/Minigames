@@ -19,20 +19,34 @@ const PreviousGamesModal: React.FC<PreviousGamesModalProps> = ({ isOpen, onClose
   }, [isOpen]);
 
   const loadAvailableDates = async () => {
+    if (availableDates.length > 0) return; // Already loaded
+    
     setLoading(true);
     try {
       const dates = getAvailableGameDates();
       
-      // Check data availability for each date
-      const datesWithAvailability = await Promise.all(
-        dates.map(async (date) => {
-          const hasData = await checkDataAvailability(date.date);
-          return { ...date, hasData };
-        })
-      );
+      // Check data availability for each date in batches to improve performance
+      const datesWithAvailability = [];
+      const batchSize = 5;
       
-      // Filter to only show dates with available data (excluding today)
-      const availableDatesOnly = datesWithAvailability.filter(date => date.hasData && !date.isToday);
+      for (let i = 0; i < dates.length; i += batchSize) {
+        const batch = dates.slice(i, i + batchSize);
+        const batchResults = await Promise.all(
+          batch.map(async (date) => {
+            try {
+              const hasData = await checkDataAvailability(date.date);
+              return { ...date, hasData };
+            } catch (error) {
+              console.error(`Error checking data for ${date.date}:`, error);
+              return { ...date, hasData: false };
+            }
+          })
+        );
+        datesWithAvailability.push(...batchResults);
+      }
+      
+      // Filter to only show dates with available data
+      const availableDatesOnly = datesWithAvailability.filter(date => date.hasData);
       setAvailableDates(availableDatesOnly);
     } catch (error) {
       console.error('Error loading available dates:', error);
@@ -99,48 +113,42 @@ const PreviousGamesModal: React.FC<PreviousGamesModalProps> = ({ isOpen, onClose
                 </p>
               </div>
               
-              <div className="space-y-2">
+              <div className="grid grid-cols-3 gap-2">
                 {availableDates.map((date) => (
                   <button
                     key={date.date}
                     onClick={() => handleDateSelect(date)}
                     disabled={checkingDate === date.date}
                     className={`
-                      w-full p-4 rounded-lg border transition-all text-left group flex items-center justify-between
+                      relative p-2 rounded-lg border transition-all text-center group
                       ${checkingDate === date.date
                         ? 'bg-blue-900/50 border-blue-700/50 text-blue-300 cursor-wait'
-                        : 'bg-gray-700 border-gray-600 text-gray-300 hover:bg-gray-600 hover:border-gray-500 hover:text-white transform hover:scale-[1.02]'
+                        : 'bg-gray-700 border-gray-600 text-gray-300 hover:bg-gray-600 hover:border-gray-500 hover:text-white transform hover:scale-105'
                       }
                     `}
                   >
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3">
-                        <div className="text-xs font-medium text-gray-400 bg-gray-600 px-2 py-1 rounded">
+                    {checkingDate === date.date ? (
+                      <div className="flex items-center justify-center py-1">
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                      </div>
+                    ) : (
+                      <>
+                        <div className="text-xs font-medium opacity-75">
                           {date.dayOfWeek}
                         </div>
-                        <div className="font-semibold">
+                        <div className="text-xs font-bold mb-1">
                           {date.displayDate}
                         </div>
-                      </div>
-                      <div className="text-xs text-gray-500 mt-1">
-                        Cricket Stats Challenge
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center">
-                      {checkingDate === date.date ? (
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                      ) : (
-                        <Play className="w-4 h-4 opacity-60 group-hover:opacity-100 transition-opacity" />
-                      )}
-                    </div>
+                        <Play className="w-3 h-3 mx-auto opacity-60 group-hover:opacity-100 transition-opacity" />
+                      </>
+                    )}
                   </button>
                 ))}
               </div>
 
               <div className="mt-4 text-center">
                 <p className="text-xs text-gray-500">
-                  Each day features different cricket players and stats
+                  Each day features different cricket players
                 </p>
               </div>
             </>
