@@ -18,12 +18,12 @@ const MobileStickyAd: React.FC = () => {
     if (!gpt?.cmd) return;
 
     gpt.cmd.push(() => {
-      // define slot only once
-      slotRef.current = gpt
-        .defineSlot('/11446729/Chimerical-crostata_Mob_01', [300, 250], 'div-gpt-ad-1752568566934-0')
-        .addService(gpt.pubads());
-      gpt.pubads().enableSingleRequest();
-      gpt.pubads().disableInitialLoad();
+      // get the already defined slot from index.html
+      slotRef.current = gpt.pubads().getSlots().find(
+        slot => slot.getSlotElementId() === 'div-gpt-ad-1752568566934-0'
+      );
+
+      if (!slotRef.current) return;
 
       // listen for viewability
       gpt.pubads().addEventListener('impressionViewable', event => {
@@ -38,7 +38,6 @@ const MobileStickyAd: React.FC = () => {
         }
       });
 
-      gpt.enableServices();
       // initial load when component mounts
       gpt.display('div-gpt-ad-1752568566934-0');
       setIsLoaded(true);
