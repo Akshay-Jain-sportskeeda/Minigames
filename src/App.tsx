@@ -279,6 +279,7 @@ function App() {
             onClose={() => setShowPreviousGamesModal(false)} 
           />
         </div>
+      </div>
     );
   }
 
