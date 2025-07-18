@@ -11,6 +11,7 @@ const AnswerInput: React.FC<AnswerInputProps> = ({ maxValue, onAnswerChange, uni
   // Determine if we should use decimal precision based on the correct answer
   const useDecimals = correctAnswer % 1 !== 0; // Only use decimals if correct answer has decimal places
   const decimalPlaces = useDecimals ? 2 : 0;
+  const maxCharacters = 7;
   
   // Calculate initial value that avoids being exactly the correct answer
   const getInitialValue = () => {
@@ -41,11 +42,18 @@ const AnswerInput: React.FC<AnswerInputProps> = ({ maxValue, onAnswerChange, uni
   }, [value, onAnswerChange, hasUserInput]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+    
+    // Check character limit first
+    if (inputValue.length > maxCharacters) {
+      return; // Don't update if exceeds character limit
+    }
+    
     setHasUserInput(true);
     
     if (useDecimals) {
       // For decimal values, allow digits, decimal point, and commas
-      let cleanValue = e.target.value.replace(/[^0-9.]/g, ''); // Allow only digits and decimal points
+      let cleanValue = inputValue.replace(/[^0-9.]/g, ''); // Allow only digits and decimal points
       
       // Handle multiple decimal points - keep only the first one
       const decimalIndex = cleanValue.indexOf('.');
@@ -54,13 +62,13 @@ const AnswerInput: React.FC<AnswerInputProps> = ({ maxValue, onAnswerChange, uni
       }
       
       const newValue = parseFloat(cleanValue) || 0;
-      setValue(Math.min(newValue, maxValue));
+      setValue(newValue);
     } else {
       // For integer values, only allow digits and commas
-      const cleanValue = e.target.value.replace(/[^0-9]/g, ''); // Allow only digits
+      const cleanValue = inputValue.replace(/[^0-9]/g, ''); // Allow only digits
       
       const newValue = parseInt(cleanValue) || 0;
-      setValue(Math.min(newValue, maxValue));
+      setValue(newValue);
     }
   };
 
@@ -106,6 +114,7 @@ const AnswerInput: React.FC<AnswerInputProps> = ({ maxValue, onAnswerChange, uni
             type="number"
             inputMode="numeric"
             pattern="[0-9]*"
+            maxLength={maxCharacters}
             value={hasUserInput ? formatInputValue(value) : ''}
             onChange={handleInputChange}
             onKeyPress={handleKeyPress}
