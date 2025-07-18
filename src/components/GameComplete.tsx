@@ -248,13 +248,6 @@ const GameComplete: React.FC<GameCompleteProps> = ({ gameState, onRestart }) => 
             ))}
           </div>
         </div>
-      </div>
-      
-          {/* Right sidebar ad - Desktop only */}
-          <div className="hidden lg:block w-80 flex-shrink-0">
-            <div className="sticky top-4">
-              <DesktopAd adId="div-gpt-ad-1752568993813-0" />
-            </div>
           </div>
         </div>
       </div>
