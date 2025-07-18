@@ -329,6 +329,7 @@ function App() {
                     />
                   </div>
                   <button
+                    id="submit-button"
                     onClick={submitAnswer}
                     disabled={userAnswer === 0}
                     className="bg-gradient-to-r from-emerald-500 to-green-600 text-white text-base font-semibold py-3 px-6 rounded-xl hover:from-emerald-600 hover:to-green-700 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg whitespace-nowrap"

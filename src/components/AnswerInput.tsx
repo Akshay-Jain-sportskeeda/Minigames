@@ -64,6 +64,20 @@ const AnswerInput: React.FC<AnswerInputProps> = ({ maxValue, onAnswerChange, uni
     }
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && hasUserInput && value > 0) {
+      // Trigger submit by calling onAnswerChange which will enable the submit button
+      // The parent component should handle the actual submission
+      e.preventDefault();
+      
+      // Find and click the submit button
+      const submitButton = document.querySelector('button:contains("Submit")') as HTMLButtonElement;
+      if (submitButton && !submitButton.disabled) {
+        submitButton.click();
+      }
+    }
+  };
+
   const formatDisplayValue = (val: number): string => {
     if (useDecimals) {
       // For decimal display, don't add commas to avoid confusion
@@ -94,6 +108,7 @@ const AnswerInput: React.FC<AnswerInputProps> = ({ maxValue, onAnswerChange, uni
             pattern="[0-9]*"
             value={hasUserInput ? formatInputValue(value) : ''}
             onChange={handleInputChange}
+            onKeyPress={handleKeyPress}
             className="w-full text-2xl font-bold text-center text-emerald-400 bg-gray-700 border-2 border-emerald-500/50 rounded-xl py-2 px-3 focus:border-emerald-400 focus:outline-none transition-all hover:border-emerald-400/70 placeholder:text-gray-400 placeholder:font-light placeholder:tracking-tight placeholder:text-left"
             placeholder="Make a guess"
           />
