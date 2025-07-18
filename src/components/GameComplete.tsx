@@ -139,11 +139,6 @@ const GameComplete: React.FC<GameCompleteProps> = ({ gameState, onRestart }) => 
         <div className="mb-4">
           <PreviousGamesCTA onOpenModal={() => setShowPreviousGamesModal(true)} />
         </div>
-        
-        {/* Desktop Ad 02 - Between sections */}
-        <div className="hidden md:block mb-4">
-          <DesktopAd adId="div-gpt-ad-1752568838004-0" />
-        </div>
 
         {/* Detailed Answers - Mobile Optimized */}
         <div className="bg-gray-800 border border-gray-700 rounded-2xl shadow-xl p-4 md:p-6">

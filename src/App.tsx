@@ -316,47 +316,40 @@ function App() {
             
             {/* Main content */}
             <div className="flex-1 max-w-md mx-auto">
-          {/* Combined Player Card and Answer Input */}
-          <div className="p-3">
-            <div className="bg-gray-800 border border-gray-700 rounded-2xl shadow-xl overflow-hidden">
-              {/* Player Section */}
-              <PlayerCard
-                player={currentQuestion.player}
-                statLabel={currentQuestion.statLabel}
-                currentQuestion={gameState.currentQuestion + 1}
-                totalQuestions={gameState.totalQuestions}
-              />
+              {/* Combined Player Card and Answer Input */}
+              <div className="p-3">
+                <div className="bg-gray-800 border border-gray-700 rounded-2xl shadow-xl overflow-hidden">
+                  {/* Player Section */}
+                  <PlayerCard
+                    player={currentQuestion.player}
+                    statLabel={currentQuestion.statLabel}
+                    currentQuestion={gameState.currentQuestion + 1}
+                    totalQuestions={gameState.totalQuestions}
+                  />
 
-              {/* Answer Section */}
-              <div className="p-4">
-                <div className="flex gap-3 items-end">
-                  <div className="flex-1">
-                    <AnswerInput
-                      key={`${currentQuestion.player.id}-${currentQuestion.statLabel}-${gameState.currentQuestion}`}
-                      maxValue={currentQuestion.maxValue}
-                      onAnswerChange={setUserAnswer}
-                      unit={currentQuestion.unit}
-                      correctAnswer={currentQuestion.player.answer}
-                    />
+                  {/* Answer Section */}
+                  <div className="p-4">
+                    <div className="flex gap-3 items-end">
+                      <div className="flex-1">
+                        <AnswerInput
+                          key={`${currentQuestion.player.id}-${currentQuestion.statLabel}-${gameState.currentQuestion}`}
+                          maxValue={currentQuestion.maxValue}
+                          onAnswerChange={setUserAnswer}
+                          unit={currentQuestion.unit}
+                          correctAnswer={currentQuestion.player.answer}
+                        />
+                      </div>
+                      <button
+                        id="submit-button"
+                        onClick={submitAnswer}
+                        disabled={userAnswer === 0}
+                        className="bg-gradient-to-r from-emerald-500 to-green-600 text-white text-base font-semibold py-3 px-6 rounded-xl hover:from-emerald-600 hover:to-green-700 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg whitespace-nowrap"
+                      >
+                        Submit
+                      </button>
+                    </div>
                   </div>
-                  <button
-                    id="submit-button"
-                    onClick={submitAnswer}
-                    disabled={userAnswer === 0}
-                    className="bg-gradient-to-r from-emerald-500 to-green-600 text-white text-base font-semibold py-3 px-6 rounded-xl hover:from-emerald-600 hover:to-green-700 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg whitespace-nowrap"
-                  >
-                    Submit
-                  </button>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-            {/* Right sidebar ad - Desktop only */}
-            <div className="hidden lg:block w-80 flex-shrink-0">
-              <div className="sticky top-4">
-                <DesktopAd adId="div-gpt-ad-1752568993813-0" />
               </div>
             </div>
           </div>
@@ -366,22 +359,22 @@ function App() {
       {/* Mobile Sticky Ad */}
       <MobileStickyAd />
       
-        {showResult && currentResult && (
-          <ResultModal
-            isVisible={showResult}
-            userAnswer={currentResult.userAnswer}
-            correctAnswer={currentResult.correctAnswer}
-            points={currentResult.points}
-            onNext={nextQuestion}
-            isLastQuestion={gameState.currentQuestion + 1 >= gameState.totalQuestions}
-          />
-        )}
-        
-        {/* Previous Games Modal */}
-        <PreviousGamesModal 
-          isOpen={showPreviousGamesModal} 
-          onClose={() => setShowPreviousGamesModal(false)} 
+      {showResult && currentResult && (
+        <ResultModal
+          isVisible={showResult}
+          userAnswer={currentResult.userAnswer}
+          correctAnswer={currentResult.correctAnswer}
+          points={currentResult.points}
+          onNext={nextQuestion}
+          isLastQuestion={gameState.currentQuestion + 1 >= gameState.totalQuestions}
         />
+      )}
+      
+      {/* Previous Games Modal */}
+      <PreviousGamesModal 
+        isOpen={showPreviousGamesModal} 
+        onClose={() => setShowPreviousGamesModal(false)} 
+      />
     </div>
   );
 }
