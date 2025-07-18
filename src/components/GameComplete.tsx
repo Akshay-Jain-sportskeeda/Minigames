@@ -4,6 +4,7 @@ import { GameState } from '../types/game';
 import CountdownTimer from './CountdownTimer';
 import PreviousGamesCTA from './PreviousGamesCTA';
 import PreviousGamesModal from './PreviousGamesModal';
+import DesktopAd from './DesktopAd';
 import { trackShare } from '../utils/analytics';
 
 interface GameCompleteProps {
@@ -60,7 +61,17 @@ const GameComplete: React.FC<GameCompleteProps> = ({ gameState, onRestart }) => 
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900">
-      <div className="max-w-4xl mx-auto p-4 pb-[270px]"> {/* Add bottom padding for sticky ad */}
+      <div className="max-w-6xl mx-auto p-4 pb-[270px]"> {/* Add bottom padding for sticky ad */}
+        <div className="flex gap-6">
+          {/* Left sidebar ad - Desktop only */}
+          <div className="hidden lg:block w-80 flex-shrink-0">
+            <div className="sticky top-4">
+              <DesktopAd adId="div-gpt-ad-1752568655634-0" />
+            </div>
+          </div>
+          
+          {/* Main content */}
+          <div className="flex-1 max-w-4xl">
         {/* Main Results Card - Compact for Mobile */}
         <div className="bg-gray-800 border border-gray-700 rounded-2xl shadow-xl p-4 md:p-8 mb-4">
           <div className="text-center mb-6">
@@ -127,6 +138,11 @@ const GameComplete: React.FC<GameCompleteProps> = ({ gameState, onRestart }) => 
         {/* Previous Games CTA */}
         <div className="mb-4">
           <PreviousGamesCTA onOpenModal={() => setShowPreviousGamesModal(true)} />
+        </div>
+        
+        {/* Desktop Ad 02 - Between sections */}
+        <div className="hidden md:block mb-4">
+          <DesktopAd adId="div-gpt-ad-1752568838004-0" />
         </div>
 
         {/* Detailed Answers - Mobile Optimized */}
@@ -230,6 +246,15 @@ const GameComplete: React.FC<GameCompleteProps> = ({ gameState, onRestart }) => 
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </div>
+      
+          {/* Right sidebar ad - Desktop only */}
+          <div className="hidden lg:block w-80 flex-shrink-0">
+            <div className="sticky top-4">
+              <DesktopAd adId="div-gpt-ad-1752568993813-0" />
+            </div>
           </div>
         </div>
       </div>

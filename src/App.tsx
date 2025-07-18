@@ -11,6 +11,7 @@ import { Play, Brain, Loader2, Calendar } from 'lucide-react';
 import { getDateFromUrl, getTodayString } from './utils/dateUtils';
 import PreviousGamesCTA from './components/PreviousGamesCTA';
 import PreviousGamesModal from './components/PreviousGamesModal';
+import DesktopAd from './components/DesktopAd';
 import { 
   trackGameStart, 
   trackQuestionAnswered, 
@@ -304,7 +305,17 @@ function App() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900">
       <div className="pb-[270px]"> {/* Add bottom padding to account for sticky ad */}
-        <div className="max-w-md mx-auto">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex gap-6">
+            {/* Left sidebar ad - Desktop only */}
+            <div className="hidden lg:block w-80 flex-shrink-0">
+              <div className="sticky top-4">
+                <DesktopAd adId="div-gpt-ad-1752568655634-0" />
+              </div>
+            </div>
+            
+            {/* Main content */}
+            <div className="flex-1 max-w-md mx-auto">
           {/* Combined Player Card and Answer Input */}
           <div className="p-3">
             <div className="bg-gray-800 border border-gray-700 rounded-2xl shadow-xl overflow-hidden">
@@ -337,6 +348,15 @@ function App() {
                     Submit
                   </button>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+            {/* Right sidebar ad - Desktop only */}
+            <div className="hidden lg:block w-80 flex-shrink-0">
+              <div className="sticky top-4">
+                <DesktopAd adId="div-gpt-ad-1752568993813-0" />
               </div>
             </div>
           </div>
