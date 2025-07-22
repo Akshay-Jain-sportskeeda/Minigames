@@ -4,8 +4,8 @@ import { GameState } from '../types/game';
 import CountdownTimer from './CountdownTimer';
 import PreviousGamesCTA from './PreviousGamesCTA';
 import PreviousGamesModal from './PreviousGamesModal';
-import MobileStickyAd from './MobileStickyAd';
 import DesktopAd from './DesktopAd';
+import MobileStickyAd from './MobileStickyAd';
 import { trackShare } from '../utils/analytics';
 
 interface GameCompleteProps {
