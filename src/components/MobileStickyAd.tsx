@@ -65,7 +65,7 @@ const MobileStickyAd: React.FC = () => {
         </button>
         <div
           id="div-gpt-ad-1752753417832-0"
-          style={{ minWidth: '300px', minHeight: '250px' }}
+          style={{ maxWidth: '336px', maxHeight: '280px' }}
           className="flex items-center justify-center"
         >
           {!isLoaded && <div className="text-gray-500 text-sm">Loading advertisement...</div>}
