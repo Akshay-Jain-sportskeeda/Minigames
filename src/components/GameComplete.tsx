@@ -4,6 +4,7 @@ import { GameState } from '../types/game';
 import CountdownTimer from './CountdownTimer';
 import PreviousGamesCTA from './PreviousGamesCTA';
 import PreviousGamesModal from './PreviousGamesModal';
+import MobileStickyAd from './MobileStickyAd';
 import DesktopAd from './DesktopAd';
 import { trackShare } from '../utils/analytics';
 
@@ -267,6 +268,29 @@ const GameComplete: React.FC<GameCompleteProps> = ({ gameState, onRestart }) => 
         onClose={() => setShowPreviousGamesModal(false)} 
       />
     </div>
+      
+      {/* Mobile Sticky Ad - Mobile only */}
+      <div className="md:hidden">
+        <MobileStickyAd />
+      </div>
+      
+      {/* Desktop Sticky Ad - Bottom */}
+      <div className="hidden lg:block fixed bottom-0 left-0 right-0 z-40 bg-gray-800/95 backdrop-blur-sm border-t border-gray-700 p-4">
+        <div className="max-w-6xl mx-auto flex justify-center">
+          <DesktopAd adId="div-gpt-ad-1752568993813-0" />
+        </div>
+      </div>
+      
+      {/* Previous Games Modal */}
+      <PreviousGamesModal 
+        isOpen={showPreviousGamesModal} 
+        onClose={() => setShowPreviousGamesModal(false)} 
+      />
+    </div>
+  );
+};
+
+export default GameComplete;
   );
 };
 

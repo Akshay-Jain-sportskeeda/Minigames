@@ -363,8 +363,10 @@ function App() {
         </div>
       </div>
       
-      {/* Mobile Sticky Ad */}
-      <MobileStickyAd />
+      {/* Mobile Sticky Ad - Mobile only */}
+      <div className="md:hidden">
+        <MobileStickyAd />
+      </div>
       
       {/* Desktop Sticky Ad - Bottom */}
       <div className="hidden lg:block fixed bottom-0 left-0 right-0 z-40 bg-gray-800/95 backdrop-blur-sm border-t border-gray-700 p-4">
