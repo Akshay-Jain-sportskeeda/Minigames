@@ -57,7 +57,11 @@ const DesktopAd: React.FC<DesktopAdProps> = ({ adId, className = '' }) => {
     <div className={`flex justify-center items-center bg-gray-800/50 border border-gray-700/50 rounded-lg p-4 ${className}`}>
       <div
         id={adId}
-        style={{ minWidth: '300px', minHeight: '250px' }}
+        style={
+    adId === 'div-gpt-ad-LeaderC'
+      ? { minWidth: '970px', minHeight: '90px' }
+      : { minWidth: '300px', minHeight: '250px' }
+  }
         className="flex items-center justify-center"
       >
         {!isLoaded && <div className="text-gray-500 text-sm">Loading advertisement...</div>}
