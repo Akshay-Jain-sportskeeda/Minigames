@@ -58,7 +58,7 @@ const DesktopAd: React.FC<DesktopAdProps> = ({ adId, className = '' }) => {
       <div
         id={adId}
         style={
-    adId === 'div-gpt-ad-LeaderC'
+    adId === 'Chimerical-crostata_Desktop_Sticky'
       ? { minWidth: '970px', minHeight: '90px' }
       : { minWidth: '300px', minHeight: '250px' }
   }
