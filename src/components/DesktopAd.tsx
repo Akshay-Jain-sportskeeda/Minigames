@@ -23,13 +23,13 @@ const DesktopAd: React.FC<DesktopAdProps> = ({ adId, className = '' }) => {
     gpt.cmd.push(() => {
       // Find the slot by element ID
       slotRef.current = gpt.pubads().getSlots().find(
-        slot => slot.getSlotElementId() === adId
+        (slot: any) => slot.getSlotElementId() === adId
       );
 
       if (!slotRef.current) return;
 
       // Listen for viewability
-      gpt.pubads().addEventListener('impressionViewable', event => {
+      gpt.pubads().addEventListener('impressionViewable', (event: any) => {
         if (event.slot === slotRef.current) {
           // Schedule a refresh after the interval
           if (timerRef.current) clearTimeout(timerRef.current);
@@ -54,7 +54,7 @@ const DesktopAd: React.FC<DesktopAdProps> = ({ adId, className = '' }) => {
   }, [adId]);
 
   return (
-    <div className={`flex justify-center items-center bg-gray-800/50 border border-gray-700/50 rounded-lg p-4 ${className}`}>
+    <div className={`ad-container ${className}`}>
       <div
         id={adId}
         style={{ minWidth: '300px', minHeight: '250px' }}
