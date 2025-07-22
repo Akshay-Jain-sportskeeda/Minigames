@@ -357,7 +357,6 @@ function App() {
             <div className="hidden lg:block w-80 flex-shrink-0">
               <div className="sticky top-4">
                 <DesktopAd adId="div-gpt-ad-1752568838004-0" className="mb-4" />
-                <DesktopAd adId="div-gpt-ad-1752568838004-0" className="mb-4" />
               </div>
             </div>
           </div>
