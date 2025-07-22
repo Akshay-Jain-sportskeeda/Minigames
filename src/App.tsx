@@ -310,7 +310,7 @@ function App() {
             {/* Left sidebar ad - Desktop only */}
             <div className="hidden lg:block w-80 flex-shrink-0">
               <div className="sticky top-4">
-                <DesktopAd adId="div-gpt-ad-1752568655634-0" />
+                <DesktopAd adId="div-gpt-ad-1752568655634-0" className="mb-4" />
               </div>
             </div>
             
@@ -352,12 +352,26 @@ function App() {
                 </div>
               </div>
             </div>
+            
+            {/* Right sidebar ad - Desktop only */}
+            <div className="hidden lg:block w-80 flex-shrink-0">
+              <div className="sticky top-4">
+                <DesktopAd adId="div-gpt-ad-1752568838004-0" className="mb-4" />
+              </div>
+            </div>
           </div>
         </div>
       </div>
       
       {/* Mobile Sticky Ad */}
       <MobileStickyAd />
+      
+      {/* Desktop Sticky Ad - Bottom */}
+      <div className="hidden lg:block fixed bottom-0 left-0 right-0 z-40 bg-gray-800/95 backdrop-blur-sm border-t border-gray-700 p-4">
+        <div className="max-w-6xl mx-auto flex justify-center">
+          <DesktopAd adId="div-gpt-ad-1752568993813-0" />
+        </div>
+      </div>
       
       {showResult && currentResult && (
         <ResultModal
