@@ -2,6 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Calendar, ChevronDown, ChevronUp, Play, Loader2, X } from 'lucide-react';
 import { getAvailableGameDates, checkDataAvailability, navigateToDateGame, GameDate } from '../utils/dateUtils';
 
+// Cache for available dates to avoid repeated API calls
+let cachedAvailableDates: (GameDate & { hasData: boolean })[] | null = null;
+let cacheTimestamp: number = 0;
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+
 interface PreviousGamesModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -19,37 +24,74 @@ const PreviousGamesModal: React.FC<PreviousGamesModalProps> = ({ isOpen, onClose
   }, [isOpen]);
 
   const loadAvailableDates = async () => {
-    if (availableDates.length > 0) return; // Already loaded
+    // Check if we have valid cached data
+    const now = Date.now();
+    if (cachedAvailableDates && (now - cacheTimestamp) < CACHE_DURATION) {
+      const availableDatesOnly = cachedAvailableDates.filter(date => date.hasData);
+      setAvailableDates(availableDatesOnly);
+      return;
+    }
+    
+    if (availableDates.length > 0 && !cachedAvailableDates) return; // Already loaded this session
     
     setLoading(true);
     try {
       const dates = getAvailableGameDates();
       
-      // Check data availability for each date in batches to improve performance
+      // Check data availability for each date in smaller, faster batches
       const datesWithAvailability = [];
-      const batchSize = 5;
+      const batchSize = 3; // Reduced batch size for faster initial response
       
       for (let i = 0; i < dates.length; i += batchSize) {
         const batch = dates.slice(i, i + batchSize);
-        const batchResults = await Promise.all(
+        
+        // Use Promise.allSettled to handle failures gracefully and continue processing
+        const batchResults = await Promise.allSettled(
           batch.map(async (date) => {
             try {
               const hasData = await checkDataAvailability(date.date);
               return { ...date, hasData };
             } catch (error) {
-              console.error(`Error checking data for ${date.date}:`, error);
+              // Silently handle errors and assume no data
               return { ...date, hasData: false };
             }
           })
         );
-        datesWithAvailability.push(...batchResults);
+        
+        // Extract successful results
+        const successfulResults = batchResults
+          .filter((result): result is PromiseFulfilledResult<GameDate & { hasData: boolean }> => 
+            result.status === 'fulfilled'
+          )
+          .map(result => result.value);
+          
+        datesWithAvailability.push(...successfulResults);
+        
+        // Show partial results immediately for better UX
+        if (i === 0) {
+          const partialAvailableDates = successfulResults.filter(date => date.hasData);
+          if (partialAvailableDates.length > 0) {
+            setAvailableDates(partialAvailableDates);
+            setLoading(false); // Show partial results while continuing to load
+          }
+        }
       }
       
       // Filter to only show dates with available data
       const availableDatesOnly = datesWithAvailability.filter(date => date.hasData);
+      
+      // Cache the results
+      cachedAvailableDates = datesWithAvailability;
+      cacheTimestamp = now;
+      
       setAvailableDates(availableDatesOnly);
     } catch (error) {
       console.error('Error loading available dates:', error);
+      // If there's an error, show any cached data we might have
+      if (cachedAvailableDates) {
+        const availableDatesOnly = cachedAvailableDates.filter(date => date.hasData);
+        setAvailableDates(availableDatesOnly);
+      }
     } finally {
       setLoading(false);
     }
@@ -59,8 +101,8 @@ const PreviousGamesModal: React.FC<PreviousGamesModalProps> = ({ isOpen, onClose
     setCheckingDate(date.date);
     
     try {
-      // Add a small delay for better UX
-      await new Promise(resolve => setTimeout(resolve, 500));
+      // Reduced delay for faster navigation
+      await new Promise(resolve => setTimeout(resolve, 200));
       navigateToDateGame(date.date);
     } catch (error) {
       console.error('Error navigating to date:', error);
