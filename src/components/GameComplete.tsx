@@ -97,17 +97,17 @@ const GameComplete: React.FC<GameCompleteProps> = ({ gameState, onRestart }) => 
           {/* Stats Grid - Responsive */}
           <div className="grid grid-cols-3 gap-3 md:gap-6 mb-6">
             <div className="bg-gradient-to-br from-blue-600 to-blue-700 text-white p-3 md:p-6 rounded-lg md:rounded-xl text-center border border-blue-500/30">
-              <div className="text-xl md:text-3xl font-bold mb-1 md:mb-2">{gameState.score}</div>
-              <div className="text-xs md:text-sm text-blue-200">Total Score</div>
+              <div className="text-lg md:text-2xl font-bold mb-1">{gameState.score}</div>
+              <div className="text-xs md:text-sm text-blue-200">Score</div>
             </div>
             
             <div className="bg-gradient-to-br from-green-600 to-green-700 text-white p-3 md:p-6 rounded-lg md:rounded-xl text-center border border-green-500/30">
-              <div className="text-xl md:text-3xl font-bold mb-1 md:mb-2">{accuracyPercentage}%</div>
+              <div className="text-lg md:text-2xl font-bold mb-1">{accuracyPercentage}%</div>
               <div className="text-xs md:text-sm text-green-200">Accuracy</div>
             </div>
             
             <div className="bg-gradient-to-br from-purple-600 to-purple-700 text-white p-3 md:p-6 rounded-lg md:rounded-xl text-center border border-purple-500/30">
-              <div className="text-xl md:text-3xl font-bold mb-1 md:mb-2">{perfectAnswers}</div>
+              <div className="text-lg md:text-2xl font-bold mb-1">{perfectAnswers}</div>
               <div className="text-xs md:text-sm text-purple-200">Perfect</div>
             </div>
           </div>
