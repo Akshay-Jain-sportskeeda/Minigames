@@ -12,7 +12,7 @@ export const checkDataAvailabilityForDate = async (targetDate: string): Promise<
   try {
     // Convert the Google Sheets URL to CSV format
     const sheetId = '1Z_DielXrLoUCa0DctJX1X0zV0_WhGUIdqjQ2ORrf0vE';
-    const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=0`;
+    const csvUrl = `/api/sheets/spreadsheets/d/${sheetId}/export?format=csv&gid=0`;
     
     const response = await fetch(csvUrl);
     const csvText = await response.text();
@@ -53,7 +53,7 @@ export const fetchPlayersFromSheet = async (targetDate?: string): Promise<SheetP
   try {
     // Convert the Google Sheets URL to CSV format
     const sheetId = '1Z_DielXrLoUCa0DctJX1X0zV0_WhGUIdqjQ2ORrf0vE';
-    const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=0`;
+    const csvUrl = `/api/sheets/spreadsheets/d/${sheetId}/export?format=csv&gid=0`;
     
     const response = await fetch(csvUrl);
     const csvText = await response.text();
