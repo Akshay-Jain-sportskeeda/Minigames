@@ -59,7 +59,7 @@ const DesktopAd: React.FC<DesktopAdProps> = ({ adId, className = '' }) => {
         id={adId}
         style={
     adId === 'div-gpt-ad-1752568993813-0'
-      ? { minWidth: '970px', minHeight: '90px' }
+      ? { maxWidth: '970px', maxHeight: '90px' }
       : { minWidth: '300px', minHeight: '250px' }
   }
         className="flex items-center justify-center"
