@@ -103,7 +103,7 @@ const GameComplete: React.FC<GameCompleteProps> = ({ gameState, onRestart }) => 
             
             <div className="bg-gradient-to-br from-green-600 to-green-700 text-white p-3 md:p-6 rounded-lg md:rounded-xl text-center border border-green-500/30">
               <div className="text-lg md:text-2xl font-bold mb-1">{accuracyPercentage}%</div>
-              <div className="text-xs md:text-sm text-green-200 align-center">Accuracy</div>
+              <div className="text-xs md:text-sm text-green-200">Accuracy</div>
             </div>
             
             <div className="bg-gradient-to-br from-purple-600 to-purple-700 text-white p-3 md:p-6 rounded-lg md:rounded-xl text-center border border-purple-500/30">
