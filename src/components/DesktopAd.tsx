@@ -58,7 +58,7 @@ const DesktopAd: React.FC<DesktopAdProps> = ({ adId, className = '' }) => {
       <div
         id={adId}
         style={
-    adId === 'div-gpt-ad-1752568993813-0'
+    adId === 'div-gpt-ad-1753174185961-0'
       ? { maxWidth: '970px', maxHeight: '90px' }
       : { maxWidth: '300px', maxHeight: '250px' }
   }
