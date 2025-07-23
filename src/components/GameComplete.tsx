@@ -113,7 +113,7 @@ const GameComplete: React.FC<GameCompleteProps> = ({ gameState, onRestart }) => 
           </div>
 
           {/* Action Buttons */}
-          <div className="flex gap-3">
+          <div className="flex gap-3 mb-4">
             <button
               onClick={onRestart}
               className="flex-1 bg-gradient-to-r from-emerald-500 to-green-600 text-white py-3 md:py-4 px-4 md:px-6 rounded-lg md:rounded-xl font-semibold hover:from-emerald-600 hover:to-green-700 transition-all transform hover:scale-105 flex items-center justify-center gap-2 text-sm md:text-base"
@@ -130,15 +130,16 @@ const GameComplete: React.FC<GameCompleteProps> = ({ gameState, onRestart }) => 
               <span className="hidden sm:inline">Share</span>
             </button>
           </div>
+          
+          {/* Previous Games CTA - Right below action buttons */}
+          <div className="mb-4">
+            <PreviousGamesCTA onOpenModal={() => setShowPreviousGamesModal(true)} />
+          </div>
         </div>
         
         {/* Countdown Timer for Next Challenge */}
         <div className="mb-4">
           <CountdownTimer />
-        </div>
-        {/* Previous Games CTA */}
-        <div className="mb-4">
-          <PreviousGamesCTA onOpenModal={() => setShowPreviousGamesModal(true)} />
         </div>
 
         {/* Detailed Answers - Mobile Optimized */}
