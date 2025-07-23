@@ -132,7 +132,7 @@ const GameComplete: React.FC<GameCompleteProps> = ({ gameState, onRestart }) => 
           </div>
           
           {/* Previous Games CTA - Right below action buttons */}
-          <div className="mb-4">
+          <div>
             <PreviousGamesCTA onOpenModal={() => setShowPreviousGamesModal(true)} />
           </div>
         </div>
