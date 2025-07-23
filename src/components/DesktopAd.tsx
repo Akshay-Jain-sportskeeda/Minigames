@@ -58,10 +58,10 @@ const DesktopAd: React.FC<DesktopAdProps> = ({ adId, className = '' }) => {
       <div
         id={adId}
         style={
-    adId == 'div-gpt-ad-1753174185961-0'
-      ? { maxWidth: '970px', maxHeight: '90px' }
-      : { minWidth: '300px', minHeight: '250px' }
-  }
+          adId === 'div-gpt-ad-1753174185961-0'
+            ? { width: '970px', height: '90px' }
+            : { width: '300px', height: '250px' }
+        }
         className="flex items-center justify-center"
       >
         {!isLoaded && <div className="text-gray-500 text-sm">Loading advertisement...</div>}
