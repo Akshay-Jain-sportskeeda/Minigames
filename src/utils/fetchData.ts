@@ -55,14 +55,25 @@ export const fetchPlayersFromSheet = async (targetDate?: string): Promise<SheetP
     const sheetId = '1Z_DielXrLoUCa0DctJX1X0zV0_WhGUIdqjQ2ORrf0vE';
     const csvUrl = `/api/sheets/spreadsheets/d/${sheetId}/export?format=csv&gid=0`;
     
+    console.log('Fetching from URL:', csvUrl);
+    
     const response = await fetch(csvUrl);
+    
+    if (!response.ok) {
+      console.error('Response not OK:', response.status, response.statusText);
+      return [];
+    }
+    
     const csvText = await response.text();
+    console.log('CSV response length:', csvText.length);
+    console.log('First 500 chars of CSV:', csvText.substring(0, 500));
     
     // Parse CSV data
     const lines = csvText.split('\n');
     const headers = lines[0].split(',').map(header => header.trim().replace(/"/g, ''));
     
     console.log('Sheet headers:', headers); // Debug log
+    console.log('Total lines in CSV:', lines.length);
     
     // Use provided target date or default to today
     const dateToFind = targetDate || (() => {
@@ -74,8 +85,11 @@ export const fetchPlayersFromSheet = async (targetDate?: string): Promise<SheetP
     })();
     
     console.log('Looking for date:', dateToFind); // Debug log
+    console.log('Current date object:', new Date());
+    console.log('Timezone offset:', new Date().getTimezoneOffset());
     
     const players: SheetPlayer[] = [];
+    const allDatesFound: string[] = [];
     
     for (let i = 1; i < lines.length; i++) {
       const line = lines[i].trim();
@@ -83,6 +97,14 @@ export const fetchPlayersFromSheet = async (targetDate?: string): Promise<SheetP
       
       // Parse CSV line handling quoted values
       const values = parseCSVLine(line);
+      
+      if (values.length >= 1) {
+        const dateValue = values[0] || '';
+        const sheetDate = parseDateFromSheet(dateValue);
+        if (sheetDate) {
+          allDatesFound.push(sheetDate);
+        }
+      }
       
       if (values.length >= 7) { // Expecting 7 columns: Date, playerName, playerImage, Country, Role, question, answer
         const dateValue = values[0] || ''; // Date column
@@ -114,6 +136,8 @@ export const fetchPlayersFromSheet = async (targetDate?: string): Promise<SheetP
       }
     }
     
+    console.log('All unique dates found in sheet:', [...new Set(allDatesFound)].sort());
+    console.log('Target date we are looking for:', dateToFind);
     console.log(`Loaded ${players.length} players for ${dateToFind}:`, players); // Debug log
     return players;
   } catch (error) {
