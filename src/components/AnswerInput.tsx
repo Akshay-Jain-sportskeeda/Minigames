@@ -79,7 +79,7 @@ const AnswerInput: React.FC<AnswerInputProps> = ({ maxValue, onAnswerChange, uni
       e.preventDefault();
       
       // Find and click the submit button
-      const submitButton = document.querySelector('button:contains("Submit")') as HTMLButtonElement;
+      const submitButton = document.getElementById('submit-button') as HTMLButtonElement;
       if (submitButton && !submitButton.disabled) {
         submitButton.click();
       }
